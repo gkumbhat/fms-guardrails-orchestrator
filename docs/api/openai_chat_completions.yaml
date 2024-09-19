@@ -31,14 +31,14 @@ paths:
                 content:
                     application/json:
                         schema:
-                            $ref: "#/components/schemas/CreateChatCompletionRequest"
+                            $ref: "https://raw.githubusercontent.com/openai/openai-openapi/master/openapi.yaml#/components/schemas/CreateChatCompletionRequest
             responses:
                 "200":
                     description: OK
                     content:
                         application/json:
                             schema:
-                                $ref: "#/components/schemas/CreateChatCompletionResponse"
+                                $ref: "https://raw.githubusercontent.com/openai/openai-openapi/master/openapi.yaml#/components/schemas/CreateChatCompletionResponse"
 
             x-oaiMeta:
                 name: Create chat completion
