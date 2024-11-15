@@ -47,6 +47,7 @@ pub struct InfoParams {
 
 /// Parameters relevant to each detector
 #[derive(Clone, Debug, Default, PartialEq, Serialize, Deserialize)]
+#[repr(C)]
 pub struct DetectorParams(HashMap<String, serde_json::Value>);
 
 impl DetectorParams {
@@ -371,6 +372,7 @@ impl TextContentDetectionHttpRequest {
 
 /// The response format of the /api/v2/text/detection/content endpoint
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[repr(C)]
 pub struct TextContentDetectionResult {
     /// Detection results
     pub detections: Vec<ContentAnalysisResponse>,

@@ -53,6 +53,7 @@ const UNSUITABLE_INPUT_MESSAGE: &str = "Unsuitable input detected. \
     with the unsuitable input removed.";
 
 #[cfg_attr(test, derive(Default))]
+#[repr(C)]
 pub struct Context {
     config: OrchestratorConfig,
     clients: ClientMap,

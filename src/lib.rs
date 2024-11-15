@@ -21,7 +21,7 @@ pub mod args;
 mod clients;
 pub mod config;
 pub mod health;
-mod models;
+pub mod models;
 pub mod orchestrator;
 mod pb;
 pub mod server;
