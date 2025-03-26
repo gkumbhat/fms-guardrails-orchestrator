@@ -132,7 +132,7 @@ pub struct ChatGenerationConfig {
 
 /// Chunker parser type
 #[cfg_attr(test, derive(Default))]
-#[derive(Clone, Copy, Debug, Deserialize)]
+#[derive(Clone, Copy, Debug, Deserialize, Eq, Hash, PartialEq)]
 #[serde(rename_all = "lowercase")]
 pub enum ChunkerType {
     #[cfg_attr(test, default)]
