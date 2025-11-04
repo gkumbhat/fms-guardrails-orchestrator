@@ -39,6 +39,8 @@ use crate::{
     models::{DetectionResult, DetectorParams, EvidenceObj, Metadata},
 };
 
+use pyo3::pyclass;
+
 pub const DEFAULT_PORT: u16 = 8080;
 pub const MODEL_HEADER_NAME: &str = "x-model-name";
 pub const DETECTOR_ID_HEADER_NAME: &str = "detector-id";
@@ -271,6 +273,7 @@ pub struct ContextDocsDetectionRequest {
 }
 
 /// Enum representing the context type of a detection
+#[pyclass]
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 pub enum ContextType {
     #[serde(rename = "docs")]

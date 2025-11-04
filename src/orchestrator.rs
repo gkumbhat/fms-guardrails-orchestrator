@@ -34,6 +34,11 @@ use crate::{
     health::{HealthCheckResult, HealthStatus},
 };
 
+use pyo3::exceptions::{PyOSError};
+use pyo3::prelude::*;
+use pyo3::pyclass;
+use pyo3_async_runtimes::tokio::future_into_py;
+
 const DEFAULT_MAX_RETRIES: usize = 3;
 
 #[cfg_attr(test, derive(Default))]
@@ -49,6 +54,7 @@ impl Context {
 }
 
 /// Handles orchestrator tasks.
+#[pyclass]
 #[cfg_attr(test, derive(Default))]
 pub struct Orchestrator {
     ctx: Arc<Context>,
@@ -154,3 +160,30 @@ async fn create_clients(config: &OrchestratorConfig) -> Result<ClientMap, Error>
     }
     Ok(clients)
 }
+
+// Async Factory function to create a guardrails orchestrator
+#[pyfunction]
+#[pyo3(text_signature = "(config_path=config.yaml, start_up_health_check=True)")]
+pub fn get_guardrails_orchestrator<'py>(py: Python<'py>, config_path: String, start_up_health_check: bool) -> PyResult<Bound<'py, PyAny>> {
+
+    let guardrails_orch8_future = async move {
+        let config_result = OrchestratorConfig::load(config_path).await;
+
+        let config = match config_result {
+            Ok(config) => config,
+            Err(err) => return Err(PyOSError::new_err(format!("Error loading orchestrator configuration: {}", err)))
+        };
+
+        let orchestrator_result = Orchestrator::new(config, start_up_health_check).await;
+
+        match orchestrator_result {
+            Ok(orchestrator) => Ok(orchestrator),
+            Err(err) => Err(PyOSError::new_err(format!("Error creating orchestrator: {}", err)))
+        }
+    };
+
+    // Convert the Future into a Python awaitable
+    future_into_py(py, guardrails_orch8_future)
+
+}
+

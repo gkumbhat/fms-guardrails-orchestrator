@@ -20,6 +20,9 @@
 use std::collections::{BTreeMap, HashMap};
 
 use serde::{Deserialize, Serialize};
+use pyo3::pyclass;
+use pyo3::types::PyDict;
+
 
 use crate::{
     clients::{
@@ -46,6 +49,7 @@ pub struct InfoParams {
 }
 
 /// Parameters relevant to each detector
+#[pyclass]
 #[derive(Clone, Debug, Default, PartialEq, Serialize, Deserialize)]
 pub struct DetectorParams(BTreeMap<String, serde_json::Value>);
 
@@ -367,6 +371,7 @@ pub struct ClassifiedGeneratedTextResult {
 }
 
 /// The request format expected in the /api/v2/text/detection/content endpoint.
+#[pyclass]
 #[derive(Clone, Debug, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct TextContentDetectionHttpRequest {
@@ -396,6 +401,7 @@ impl TextContentDetectionHttpRequest {
 }
 
 /// The response format of the /api/v2/text/detection/content endpoint
+#[pyclass(extends=PyDict)]
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct TextContentDetectionResult {
     /// Detection results
@@ -977,6 +983,7 @@ pub enum GuardrailDetection {
 }
 
 /// The request format expected in the /api/v2/text/context endpoint.
+#[pyclass]
 #[derive(Clone, Debug, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct ContextDocsHttpRequest {
@@ -1015,6 +1022,7 @@ impl ContextDocsHttpRequest {
 }
 
 /// The response format of the /api/v1/text/task/generation-detection endpoint
+#[pyclass]
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct ContextDocsResult {
     pub detections: Vec<DetectionResult>,

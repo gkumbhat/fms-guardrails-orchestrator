@@ -28,3 +28,26 @@ pub mod server;
 pub mod utils;
 #[allow(unused_imports)]
 pub(crate) use utils::AsUriExt;
+
+use pyo3::prelude::*;
+
+use crate::{models::{DetectorParams, TextContentDetectionHttpRequest}, orchestrator::Orchestrator};
+
+
+/// A Python module implemented in Rust.
+#[pymodule]
+fn fms_guardrails_orchestr8(_py: Python, m: &Bound<'_, PyModule>) -> PyResult<()> {
+
+    // TODO: Replace this with proper implementation
+    let _ = rustls::crypto::ring::default_provider().install_default();
+
+    // m.add_class::<Orchestrator>()?;
+    m.add_class::<TextContentDetectionHttpRequest>()?;
+    m.add_class::<DetectorParams>()?;
+    m.add_class::<models::TextContentDetectionResult>()?;
+    m.add_class::<clients::detector::ContextType>()?;
+    m.add_class::<models::ContextDocsHttpRequest>()?;
+    m.add_class::<models::ContextDocsResult>()?;
+    m.add_function(wrap_pyfunction!(orchestrator::get_guardrails_orchestrator, m)?)?;
+    Ok(())
+}
